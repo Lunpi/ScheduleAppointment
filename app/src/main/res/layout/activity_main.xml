@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/image_right_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/description_next_week"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/image_left_arrow"
+        app:layout_constraintEnd_toEndOf="@id/text_title"
+        app:layout_constraintTop_toTopOf="@id/image_left_arrow"
+        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+        app:tint="@color/button_enable" />
+
+    <ImageView
+        android:id="@+id/image_left_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/description_previous_week"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/text_date_note"
+        app:layout_constraintStart_toStartOf="@id/text_title"
+        app:layout_constraintTop_toTopOf="@id/text_date"
+        app:srcCompat="@drawable/ic_chevron_left_black_24dp"
+        app:tint="@color/button_disable" />
+
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_date_note">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/container_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:scrollbars="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/text_date_note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/date_note"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        app:layout_constraintEnd_toEndOf="@id/text_date"
+        app:layout_constraintStart_toStartOf="@id/text_date"
+        app:layout_constraintTop_toBottomOf="@id/text_date" />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="?android:listPreferredItemPaddingStart"
+        android:text="@string/available_times"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        app:layout_constraintEnd_toStartOf="@id/image_right_arrow"
+        app:layout_constraintStart_toEndOf="@id/image_left_arrow"
+        app:layout_constraintTop_toBottomOf="@id/text_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
