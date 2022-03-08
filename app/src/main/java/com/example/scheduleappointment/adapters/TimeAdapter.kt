@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleappointment.DateTimeUtils
 import com.example.scheduleappointment.R
-import com.example.scheduleappointment.TimeSlot
+import com.example.scheduleappointment.data.TimeSlot
 
 class TimeAdapter : RecyclerView.Adapter<TimeViewHolder>() {
-    
+
     val slots = ArrayList<TimeSlot>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder = TimeViewHolder(
@@ -24,10 +24,10 @@ class TimeAdapter : RecyclerView.Adapter<TimeViewHolder>() {
 }
 
 class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    
+
     private val time = itemView.findViewById<TextView>(R.id.text_time)
 
     fun bind(slot: TimeSlot) {
-        time.text = DateTimeUtils.getTime(slot.startTime)
+        time.text = DateTimeUtils.timestampToHourMinute(slot.startTime)
     }
 }

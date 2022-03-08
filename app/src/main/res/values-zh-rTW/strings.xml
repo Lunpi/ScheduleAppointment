@@ -2,6 +2,7 @@
     <string name="app_name">ScheduleAppointment</string>
     <string name="available_times">授課時間</string>
     <string name="date_note">* 時間以 %s 顯示</string>
+    <string name="error_message_unknown">有東西出錯了，請再試一次</string>
 
     <string name="sunday">日</string>
     <string name="monday">一</string>

@@ -3,6 +3,7 @@
     <string name="available_times">Available times</string>
     <string name="date_interval" translatable="false">%s - %s</string>
     <string name="date_note">* All times listed are in your local timezone: %s</string>
+    <string name="error_message_unknown">Something went wrong, please try again.</string>
     
     <string name="sunday">Sun</string>
     <string name="monday">Mon</string>

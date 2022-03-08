@@ -32,6 +32,15 @@
         app:srcCompat="@drawable/ic_chevron_left_black_24dp"
         app:tint="@color/button_disable" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/scroll_container"
+        app:layout_constraintEnd_toEndOf="@id/scroll_container"
+        app:layout_constraintStart_toStartOf="@id/scroll_container"
+        app:layout_constraintTop_toTopOf="@id/scroll_container" />
+
     <ScrollView
         android:id="@+id/scroll_container"
         android:layout_width="match_parent"
@@ -49,18 +58,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </ScrollView>
-
-    <TextView
-        android:id="@+id/text_date_note"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/date_note"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-        app:layout_constraintEnd_toEndOf="@id/text_date"
-        app:layout_constraintStart_toStartOf="@id/text_date"
-        app:layout_constraintTop_toBottomOf="@id/text_date" />
 
     <TextView
         android:id="@+id/text_title"
@@ -81,5 +78,17 @@
         app:layout_constraintEnd_toStartOf="@id/image_right_arrow"
         app:layout_constraintStart_toEndOf="@id/image_left_arrow"
         app:layout_constraintTop_toBottomOf="@id/text_title" />
+
+    <TextView
+        android:id="@+id/text_date_note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/date_note"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        app:layout_constraintEnd_toEndOf="@id/text_date"
+        app:layout_constraintStart_toStartOf="@id/text_date"
+        app:layout_constraintTop_toBottomOf="@id/text_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
