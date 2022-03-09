@@ -2,6 +2,7 @@ package com.example.scheduleappointment
 
 import com.example.scheduleappointment.data.*
 import kotlinx.coroutines.suspendCancellableCoroutine
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,9 +12,17 @@ import java.lang.Exception
 
 class ScheduleRepository {
 
+    private val httpClient = OkHttpClient.Builder().apply {
+        addInterceptor { chain ->
+            val request = chain.request().newBuilder().addHeader(HTTP_HEADER_KEY, HTTP_HEADER_VALUE).build()
+            chain.proceed(request)
+        }
+    }
+
     private val retrofit = Retrofit.Builder()
-        .baseUrl(API_URL)
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+        .client(httpClient.build())
         .build()
 
     private val service = retrofit.create(ApiService::class.java)
@@ -55,26 +64,11 @@ class ScheduleRepository {
         }
     }
 
-    suspend fun queryTestData(): List<User> {
-        return suspendCancellableCoroutine {
-            service.getTestData(2).enqueue(object : Callback<TestData> {
-
-                override fun onResponse(call: Call<TestData>?, response: Response<TestData>?) {
-                    val users = ArrayList<User>()
-                    response?.body()?.data?.let {
-                        users.addAll(it)
-                    }
-                    it.resumeWith(Result.success(users))
-                }
-
-                override fun onFailure(call: Call<TestData>?, t: Throwable?) {
-                    it.resumeWith(Result.failure(Exception(t)))
-                }
-            })
-        }
-    }
-
     companion object {
-        private const val API_URL = "https://reqres.in/"
+        // TODO: Replace your API URL here
+        private const val BASE_URL = "https://reqres.in/"
+        // TODO: Customize headers if needed
+        private const val HTTP_HEADER_KEY = "X-Auth-Token"
+        private const val HTTP_HEADER_VALUE = "5b294e9193d240e39eefc5e6e551ce83"
     }
 }

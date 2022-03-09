@@ -22,7 +22,6 @@ class ScheduleViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.Default) {
             try {
                 val result = repository.query(date)
-                val testData = repository.queryTestData()
                 processing.postValue(false)
                 errorMessage.postValue("")
                 timeSlots.postValue(result)

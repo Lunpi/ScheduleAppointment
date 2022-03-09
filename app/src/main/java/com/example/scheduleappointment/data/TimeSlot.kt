@@ -16,17 +16,3 @@ data class JsSlot(
     @SerializedName("start") val start: String,
     @SerializedName("end") val end: String
 )
-
-data class TestData(
-    @SerializedName("data")
-    val data: List<User>,
-    
-    @SerializedName("total")
-    val total: Int
-)
-
-data class User(
-    @SerializedName("id") val id: Int,
-    @SerializedName("first_name") val firstName: String,
-    val test: Boolean
-)
