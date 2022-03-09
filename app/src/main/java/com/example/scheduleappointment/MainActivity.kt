@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         syncDate()
         updateDateText()
         updateNoteText()
+        checkPreviousWeekEnable()
         // available time might be changed after awhile
         updateDayAdapter()
     }
