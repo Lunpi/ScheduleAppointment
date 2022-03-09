@@ -6,66 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/image_right_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:contentDescription="@string/description_next_week"
-        android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="@id/image_left_arrow"
-        app:layout_constraintEnd_toEndOf="@id/text_title"
-        app:layout_constraintTop_toTopOf="@id/image_left_arrow"
-        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
-        app:tint="@color/button_enable" />
-
-    <ImageView
-        android:id="@+id/image_left_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:contentDescription="@string/description_previous_week"
-        android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="@id/text_date_note"
-        app:layout_constraintStart_toStartOf="@id/text_title"
-        app:layout_constraintTop_toTopOf="@id/text_date"
-        app:srcCompat="@drawable/ic_chevron_left_black_24dp"
-        app:tint="@color/button_disable" />
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/scroll_container"
-        app:layout_constraintEnd_toEndOf="@id/scroll_container"
-        app:layout_constraintStart_toStartOf="@id/scroll_container"
-        app:layout_constraintTop_toTopOf="@id/scroll_container" />
-
-    <ScrollView
-        android:id="@+id/scroll_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_date_note">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/container_day"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:scrollbars="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-    </ScrollView>
-
     <TextView
         android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="?android:listPreferredItemPaddingStart"
         android:text="@string/available_times"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -90,5 +37,57 @@
         app:layout_constraintEnd_toEndOf="@id/text_date"
         app:layout_constraintStart_toStartOf="@id/text_date"
         app:layout_constraintTop_toBottomOf="@id/text_date" />
+
+    <ImageView
+        android:id="@+id/image_right_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/description_next_week"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/image_left_arrow"
+        app:layout_constraintEnd_toEndOf="@id/text_title"
+        app:layout_constraintTop_toTopOf="@id/image_left_arrow"
+        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+        app:tint="@color/enable" />
+
+    <ImageView
+        android:id="@+id/image_left_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/description_previous_week"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/text_date_note"
+        app:layout_constraintStart_toStartOf="@id/text_title"
+        app:layout_constraintTop_toTopOf="@id/text_date"
+        app:srcCompat="@drawable/ic_chevron_left_black_24dp"
+        app:tint="@color/disable" />
+
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_date_note">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/container_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/scroll_container"
+        app:layout_constraintEnd_toEndOf="@id/scroll_container"
+        app:layout_constraintStart_toStartOf="@id/scroll_container"
+        app:layout_constraintTop_toTopOf="@id/scroll_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

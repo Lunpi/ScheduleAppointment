@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProvider
@@ -29,19 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[ScheduleViewModel::class.java]
 
-        val dateInterval = findViewById<TextView>(R.id.text_date).apply {
-            text = getString(R.string.date_interval, DateTimeUtils.timestampToYearDate(sunday), DateTimeUtils.timestampToDate(saturday))
-        }
-
-        findViewById<TextView>(R.id.text_date_note).apply {
-            text = getString(R.string.date_note, TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
-        }
-
         findViewById<ImageView>(R.id.image_left_arrow).apply {
             setOnClickListener {
-                sunday -= DateTimeUtils.week
-                saturday -= DateTimeUtils.week
-                dateInterval.text = getString(R.string.date_interval, DateTimeUtils.timestampToYearDate(sunday), DateTimeUtils.timestampToDate(saturday))
+                previousWeek()
+                updateDateText()
                 checkPreviousWeekEnable()
                 updateDayAdapter()
             }
@@ -49,9 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.image_right_arrow).apply {
             setOnClickListener {
-                sunday += DateTimeUtils.week
-                saturday += DateTimeUtils.week
-                dateInterval.text = getString(R.string.date_interval, DateTimeUtils.timestampToYearDate(sunday), DateTimeUtils.timestampToDate(saturday))
+                nextWeek()
+                updateDateText()
                 checkPreviousWeekEnable()
                 updateDayAdapter()
             }
@@ -64,12 +55,25 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
         }
 
+        // timeSlots affects adapters
         viewModel.timeSlots.observe(this) { slots ->
             splitSlotsByDay(slots)
         }
 
+        // processing decides whether should show the progress bar 
         viewModel.processing.observe(this) { processing ->
             progressBar.visibility = if (processing) View.VISIBLE else View.GONE
+        }
+
+        // errorMessage is used for debugging
+        viewModel.errorMessage.observe(this) { message ->
+            if (message.isNotEmpty()) {
+                val messageText = when (message) {
+                    ScheduleViewModel.ERROR_UNKNOWN -> getString(R.string.error_message_unknown)
+                    else -> message
+                }
+                Toast.makeText(this, messageText, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -77,25 +81,44 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         // user might change timezone at settings
         syncDate()
+        updateDateText()
+        updateNoteText()
+        // available time might be changed after awhile
         updateDayAdapter()
+    }
+
+    private fun syncDate() {
+        sunday = DateTimeUtils.getSundayTimestamp()
+        saturday = sunday + DateTimeUtils.day * 6
+    }
+
+    private fun previousWeek() {
+        sunday -= DateTimeUtils.week
+        saturday -= DateTimeUtils.week
+    }
+
+    private fun nextWeek() {
+        sunday += DateTimeUtils.week
+        saturday += DateTimeUtils.week
+    }
+
+    private fun updateDateText() {
+        findViewById<TextView>(R.id.text_date).apply {
+            text = getString(R.string.date_interval, DateTimeUtils.timestampToYearDate(sunday), DateTimeUtils.timestampToDate(saturday))
+        }
+    }
+
+    private fun updateNoteText() {
+        findViewById<TextView>(R.id.text_date_note).apply {
+            text = getString(R.string.date_note, TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
+        }
     }
 
     private fun checkPreviousWeekEnable() {
         findViewById<ImageView>(R.id.image_left_arrow).apply {
             isEnabled = !(sunday < DateTimeUtils.getTodayTimestamp())
             DrawableCompat.setTint(drawable,
-                ContextCompat.getColor(this@MainActivity, if (isEnabled) R.color.button_enable else R.color.button_disable))
-        }
-    }
-
-    private fun syncDate() {
-        sunday = DateTimeUtils.getSundayTimestamp()
-        saturday = sunday + DateTimeUtils.day * 6
-        findViewById<TextView>(R.id.text_date).apply {
-            text = getString(R.string.date_interval, DateTimeUtils.timestampToYearDate(sunday), DateTimeUtils.timestampToDate(saturday))
-        }
-        findViewById<TextView>(R.id.text_date_note).apply {
-            text = getString(R.string.date_note, TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
+                ContextCompat.getColor(this@MainActivity, if (isEnabled) R.color.enable else R.color.disable))
         }
     }
 

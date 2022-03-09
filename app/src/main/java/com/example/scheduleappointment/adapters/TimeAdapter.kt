@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleappointment.DateTimeUtils
 import com.example.scheduleappointment.R
@@ -28,6 +29,9 @@ class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val time = itemView.findViewById<TextView>(R.id.text_time)
 
     fun bind(slot: TimeSlot) {
-        time.text = DateTimeUtils.timestampToHourMinute(slot.startTime)
+        time.apply {
+            text = DateTimeUtils.timestampToHourMinute(slot.startTime)
+            setTextColor(ContextCompat.getColor(context, if (slot.available) R.color.enable else R.color.disable))
+        }
     }
 }

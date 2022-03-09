@@ -18,11 +18,13 @@ class ScheduleViewModel : ViewModel() {
 
     fun updateTimeSlots(date: Long) {
         processing.value = true
+        timeSlots.postValue(emptyList())
         viewModelScope.launch(Dispatchers.Default) {
             try {
                 val result = repository.query(date)
                 val testData = repository.queryTestData()
                 processing.postValue(false)
+                errorMessage.postValue("")
                 timeSlots.postValue(result)
             } catch (e: Exception) {
                 processing.postValue(false)

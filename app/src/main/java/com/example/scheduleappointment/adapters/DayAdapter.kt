@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleappointment.DateTimeUtils
 import com.example.scheduleappointment.R
@@ -32,18 +33,27 @@ class DayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val timeAdapter = TimeAdapter()
 
     fun bind(timestamp: Long, timeSlots: List<TimeSlot>) {
-        day.text = itemView.context.getString(
-            when (layoutPosition) {
-                0 -> R.string.sunday
-                1 -> R.string.monday
-                2 -> R.string.tuesday
-                3 -> R.string.wednesday
-                4 -> R.string.thursday
-                5 -> R.string.friday
-                else -> R.string.saturday
-            }
-        )
-        dayNumber.text = DateTimeUtils.timestampToDay(timestamp)
+        day.apply {
+            text = itemView.context.getString(
+                when (layoutPosition) {
+                    0 -> R.string.sunday
+                    1 -> R.string.monday
+                    2 -> R.string.tuesday
+                    3 -> R.string.wednesday
+                    4 -> R.string.thursday
+                    5 -> R.string.friday
+                    else -> R.string.saturday
+                }
+            )
+            setTextColor(ContextCompat.getColor(context,
+                if (timestamp < DateTimeUtils.getTodayTimestamp()) R.color.disable else R.color.enable))
+        }
+
+        dayNumber.apply {
+            text = DateTimeUtils.timestampToDay(timestamp)
+            setTextColor(ContextCompat.getColor(context,
+                if (timestamp < DateTimeUtils.getTodayTimestamp()) R.color.disable else R.color.text_color_primary))
+        }
 
         timeAdapter.apply {
             slots.clear()
