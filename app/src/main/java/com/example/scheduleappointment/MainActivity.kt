@@ -19,7 +19,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: ScheduleViewModel
-    private lateinit var dayList: RecyclerView
     private val dayAdapter = DayAdapter()
     private var sunday = DateTimeUtils.getSundayTimestamp()
     private var saturday = sunday + DateTimeUtils.day * 6
@@ -50,14 +49,15 @@ class MainActivity : AppCompatActivity() {
 
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
 
-        dayList = findViewById<RecyclerView>(R.id.container_day).apply {
+        findViewById<RecyclerView>(R.id.container_day_column).apply {
             adapter = dayAdapter
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
         }
 
-        // timeSlots affects adapters
+        // timeSlots affects adapter
         viewModel.timeSlots.observe(this) { slots ->
             splitSlotsByDay(slots)
+            dayAdapter.notifyDataSetChanged()
         }
 
         // processing decides whether should show the progress bar 
@@ -124,18 +124,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateDayAdapter() {
         dayAdapter.startDate = sunday
-        viewModel.updateTimeSlots(sunday)
+        viewModel.queryTimeSlots(sunday)
     }
 
     private fun splitSlotsByDay(slots: List<TimeSlot>) {
-        dayAdapter.apply {
-            for (i in weekTimeSlots.indices) {
-                val dayStartTime = sunday + DateTimeUtils.day * i
-                val dayEndTime = dayStartTime + DateTimeUtils.day
-                val filtered = slots.filter { item -> item.startTime >= dayStartTime && item.endTime <= dayEndTime }
-                weekTimeSlots[i] = filtered
-            }
-            notifyDataSetChanged()
+        for (i in dayAdapter.weekTimeSlots.indices) {
+            val dayStartTime = sunday + DateTimeUtils.day * i
+            val dayEndTime = dayStartTime + DateTimeUtils.day
+            val filtered = slots.filter { item -> item.startTime >= dayStartTime && item.endTime <= dayEndTime }
+            dayAdapter.weekTimeSlots[i] = filtered
         }
     }
 }

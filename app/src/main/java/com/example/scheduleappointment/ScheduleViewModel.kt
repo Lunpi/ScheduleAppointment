@@ -16,7 +16,7 @@ class ScheduleViewModel : ViewModel() {
     val processing = MutableLiveData(false)
     val errorMessage = MutableLiveData("")
 
-    fun updateTimeSlots(date: Long) {
+    fun queryTimeSlots(date: Long) {
         processing.value = true
         timeSlots.postValue(emptyList())
         viewModelScope.launch(Dispatchers.Default) {

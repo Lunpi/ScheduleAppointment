@@ -25,12 +25,11 @@
         app:layout_constraintStart_toStartOf="@id/text_day"
         app:layout_constraintTop_toBottomOf="@id/text_day" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/container_time_slot"
+    <LinearLayout
+        android:id="@+id/container_slot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_min="480dp"
         app:layout_constraintStart_toStartOf="parent"

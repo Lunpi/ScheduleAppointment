@@ -3,6 +3,7 @@ package com.example.scheduleappointment.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.example.scheduleappointment.data.TimeSlot
 class DayAdapter : RecyclerView.Adapter<DayViewHolder>() {
 
     var startDate = 0L
+    // weekTimeSlots[0] for Sunday, weekTimeSlots[1] for Monday and so on
     val weekTimeSlots = Array<List<TimeSlot>>(7) { emptyList() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder = DayViewHolder(
@@ -29,8 +31,7 @@ class DayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val day = itemView.findViewById<TextView>(R.id.text_day)
     private val dayNumber = itemView.findViewById<TextView>(R.id.text_day_no)
-    private val timeSlotList = itemView.findViewById<RecyclerView>(R.id.container_time_slot)
-    private val timeAdapter = TimeAdapter()
+    private val container = itemView.findViewById<LinearLayout>(R.id.container_slot)
 
     fun bind(timestamp: Long, timeSlots: List<TimeSlot>) {
         day.apply {
@@ -55,14 +56,17 @@ class DayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 if (timestamp < DateTimeUtils.getTodayTimestamp()) R.color.disable else R.color.text_color_primary))
         }
 
-        timeAdapter.apply {
-            slots.clear()
-            slots.addAll(timeSlots)
-            notifyDataSetChanged()
-        }
-
-        timeSlotList.apply {
-            adapter = timeAdapter
+        container.apply {
+            removeAllViews()
+            timeSlots.forEach { slot ->
+                val slotView = LayoutInflater.from(context).inflate(R.layout.list_item_time_slot, this, false).apply {
+                    findViewById<TextView>(R.id.text_time).apply {
+                        text = DateTimeUtils.timestampToHourMinute(slot.startTime)
+                        setTextColor(ContextCompat.getColor(context, if (slot.available) R.color.enable else R.color.disable))
+                    }
+                }
+                addView(slotView)
+            }
         }
     }
 }
